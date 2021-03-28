@@ -9,7 +9,6 @@ const useForm = (initialFieldValues) => {
             ...values,
             [name]: value,
         })
-        console.log(values)
     }
 
     return {

@@ -7,9 +7,8 @@ const RepairsHistory = props => {
 
     useEffect(() => {
         props.fetchCompleteRepairs()
-    }, [])
+    },[]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    
     return (
         <Container>
             <Table>

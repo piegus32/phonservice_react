@@ -7,7 +7,7 @@ const Repairs = (props) => {
 
     useEffect(() => {
         props.fetchAllRepairs()
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const HandleDeleteButton = id => {
         props.deleteRepair(id);

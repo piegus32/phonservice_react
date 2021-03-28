@@ -17,7 +17,7 @@ const Clients = props => {
 
     useEffect(() => {
         props.fetchAllClients()
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const [showForm, setShowForm] = useState(false)
     const [edit, setEdit] = useState(false)

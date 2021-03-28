@@ -3,6 +3,7 @@ import { Table, Button, Spinner } from "react-bootstrap";
 import Paginate from "./Paginate"
 
 const ProductsManager = props => {
+    
     const [currentPage, setCurrentPage] = useState(1)
     const [postsPerPage] = useState(5)
     const [active, setActive] = useState(1)
@@ -47,7 +48,7 @@ const ProductsManager = props => {
                                             <td>{product.model}</td>
                                             <td>{product.color}</td>
                                             <td>
-                                                <Button className="btn btn-light" onClick={() => props.handleEditForm(product.brand, product.model, product.color, product.id)} >Edit</Button><a />
+                                                <Button className="btn btn-light" onClick={() => props.handleEditForm(product.brand, product.model, product.color, product.id)}>Edit</Button>{ }
                                                 <Button variant="outline-secondary" onClick={() => props.onDelete(product.id)}>Delete</Button>
                                             </td>
                                         </tr>

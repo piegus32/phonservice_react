@@ -7,7 +7,6 @@ const ClientList = props => {
     const [ data, setData ] = useState();
 
     const showRepairsList = (repairList) => {
-        console.log(repairList)
         if(repairList.length === 0){
             window.alert("There are no repairs for selected client.")
         }

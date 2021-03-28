@@ -29,7 +29,7 @@ const AddNewRepair = (props) => {
     useEffect(() => {
         props.fetchAllProducts();
         props.fetchAllClients();
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
     const history = useHistory()
@@ -37,11 +37,11 @@ const AddNewRepair = (props) => {
 
     const productOptions = [];
     const clientOptions = [];
-    props.productList.map(product => {
+    props.productList.forEach(product => {
         productOptions.push({ value: product.id, label: product.brand + " " + product.model + " " + product.color })
     })
 
-    props.clientList.map(client => {
+    props.clientList.forEach(client => {
         clientOptions.push({ value: client.id, label: client.name + " " + client.surname + " - Phone " + client.phone })
     })
 

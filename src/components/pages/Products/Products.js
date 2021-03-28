@@ -21,16 +21,16 @@ const Products = props => {
     const [currentId, setCurrentId] = useState(0);
     const [showProductsList, setShowProductsList] = useState(false)
     const { values, setValues, handleInputChange } = useForm(initialFieldValues);
-
+    
+    const fetchProducts = () => {
+        setLoading(true);
+        props.fetchProductsGroups()
+        props.fetchAllProducts()
+        setLoading(false);
+    }
     useEffect(() => {
-        async function fetchData(){
-            setLoading(true);
-            await props.fetchProductsGroups()
-            await props.fetchAllProducts()
-            setLoading(false);
-        }
-        fetchData();
-    }, [])
+        fetchProducts()
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleAddForm = () => {
         setShowForm(true);
@@ -86,7 +86,6 @@ const Products = props => {
                 handleFormClose={handleFormClose}
                 handleInputChange={handleInputChange}
                 values={values} setValues={setValues}
-                handleFormClose={handleFormClose}
                 handleEditSubmit={handleEditSubmit}
                 handleSubmit={handleSubmit}
                 handleAddForm={handleAddForm}
