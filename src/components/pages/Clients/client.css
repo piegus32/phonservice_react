@@ -1,0 +1,10 @@
+.addbutton{
+	margin:1em;
+    border: 0;
+	position: relative;
+	padding: 0.5em 1.5em;
+}
+
+.form{
+	margin: 1em;
+}
