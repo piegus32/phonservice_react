@@ -16,11 +16,18 @@ import AddNewRepair from './components/pages/Repairs/AddNewRepair';
 import RepairsHistory from './components/pages/Repairs/RepairsHistory';
 import { Container } from 'react-bootstrap';
 import history from './services/history';
+import jwt_decode from "jwt-decode";
 
 function App() {
 
-  if(localStorage.getItem("user")){
-    // Implement : Remove user if token is expired!!
+  if (localStorage.getItem("user")) {
+    const { token } = JSON.parse(localStorage.getItem("user"));
+    const { exp } = jwt_decode(token)
+    const expirationTime = (exp * 1000) - 60000
+    if (Date.now() >= expirationTime) {
+      localStorage.clear()
+      window.location.reload()
+    }
   }
 
   return (
@@ -40,8 +47,7 @@ function App() {
               </Switch>
             </Router>
           </div>
-        ):
-        <Login />}
+        ) : <Login />}
       </Container>
     </Provider>
   );

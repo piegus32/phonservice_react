@@ -24,7 +24,7 @@ const Login = (props) => {
 
     return (
         <Container>
-            <h1>Please Log In</h1>
+            <h1 style={{textAlign: "center"}}>Please Sign In</h1>
             <Form onSubmit={handleSubmitForm}>
                 <Form.Group>
                     <Form.Label>Username</Form.Label>
