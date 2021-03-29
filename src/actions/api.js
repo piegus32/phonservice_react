@@ -44,28 +44,35 @@ axios.interceptors.response.use(
             !originalRequest._retry
         ) {
             if (isRefreshing) {
-                return new Promise(function(resolve, reject) {
-                    failedQueue.push({ resolve, reject });
-                })
-                    .then(data => {
-                        originalRequest.headers['Authorization'] = 'Bearer ' + data.token;
-                        return axios(originalRequest);
-                    })
-                    .catch(err => {
-                        return Promise.reject(err);
+                try {
+                    await new Promise(function (resolve, reject) {
+                        failedQueue.push({ resolve, reject });
                     });
+                    return await axios(originalRequest);
+                } catch (err) {
+                    return await Promise.reject(err);
+                }
             }
             
             originalRequest._retry = true;
             isRefreshing = true;
-            originalRequest._retry = true;
-            axios.defaults.withCredentials = true;
-            const res = await axios.post(`${baseUrl}auth/refresh-token`);
-            if (res.status === 200) {
-                localStorage.setItem("user", JSON.stringify(res.data));
-                console.log("Access token refreshed!");
-                return axios(originalRequest);
-            }
+            return new Promise(function (resolve, reject) {
+                axios.defaults.withCredentials = true;
+                axios.post(`${baseUrl}auth/refresh-token`)
+                .then(response => {
+                    localStorage.setItem("user", JSON.stringify(response.data));
+                    console.log("Access token refreshed!");
+                    processQueue(null, response.data.token);
+                    resolve(axios(originalRequest));
+                })
+                .catch((err) => {
+                    processQueue(err, null);
+                    reject(err);
+                })
+                .finally(
+                    window.location.reload()
+                )
+            })
         }
         return Promise.reject(error);
     }

@@ -42,15 +42,15 @@ const ProductList = props => {
         <div>
             {props.productList.map((option, key) => {
                 return (
-                    <div id={key + "image"} style={{ float: 'left', position: 'relative', width: "250px", height: "250px" }}>
+                    <div id={key + "image"} key={key.toString()} style={{ float: 'left', position: 'relative', width: "250px", height: "250px" }}>
                         <Image src={selectPhoto(option.brand)} className="imageStyle" fluid></Image>
 
                         <p style={{ textAlign: 'center' }}><Button onClick={() => openSelectedList(key)}>{option.brand}</Button></p>
 
                         <ListGroup id={key} style={{ visibility: "hidden" }} variant="flush">
-                            {option.models.map(model => {
+                            {option.models.map((model, modelKey) => {
                                 return (
-                                    <ListGroup.Item>{model}</ListGroup.Item>
+                                    <ListGroup.Item key={modelKey}>{model}</ListGroup.Item>
                                 )
                             })}
                         </ListGroup>
