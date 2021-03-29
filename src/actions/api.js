@@ -18,16 +18,69 @@ axios.interceptors.request.use(
     }
 );
 
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+    failedQueue.forEach(prom => {
+        if (error) {
+            prom.reject(error);
+        } else {
+            prom.resolve(token);
+        }
+    });
+
+    failedQueue = [];
+};
+//response interceptor to refresh token on receiving token expired error
+axios.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    async function (error) {
+        const originalRequest = error.config;
+        if (
+            error.response.status === 401 &&
+            !originalRequest._retry
+        ) {
+            if (isRefreshing) {
+                return new Promise(function(resolve, reject) {
+                    failedQueue.push({ resolve, reject });
+                })
+                    .then(data => {
+                        originalRequest.headers['Authorization'] = 'Bearer ' + data.token;
+                        return axios(originalRequest);
+                    })
+                    .catch(err => {
+                        return Promise.reject(err);
+                    });
+            }
+            
+            originalRequest._retry = true;
+            isRefreshing = true;
+            originalRequest._retry = true;
+            axios.defaults.withCredentials = true;
+            const res = await axios.post(`${baseUrl}auth/refresh-token`);
+            if (res.status === 200) {
+                localStorage.setItem("user", JSON.stringify(res.data));
+                console.log("Access token refreshed!");
+                return axios(originalRequest);
+            }
+        }
+        return Promise.reject(error);
+    }
+);
+
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
-    
+
     auth(url = baseUrl + 'auth/') {
         axios.defaults.withCredentials = true;
         return {
             signin: data => axios.post(url + "signin", data)
         }
     },
-    
+
     product(url = baseUrl + 'products/') {
         return {
             fetchAll: () => axios.get(url),
