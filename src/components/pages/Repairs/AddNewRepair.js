@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { connect } from "react-redux";
 import { Container, Form, FormLabel, Button } from "react-bootstrap";
 import * as repairActions from "../../../actions/repair";
@@ -8,7 +7,6 @@ import * as clientActions from "../../../actions/client";
 import "./repairs.css"
 import useForm from "../useForm"
 import Select from 'react-select'
-import { LaptopWindows } from '@material-ui/icons';
 
 const initialFieldValues = {
     warranty: '',
@@ -32,8 +30,6 @@ const AddNewRepair = (props) => {
         props.fetchAllClients();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-
-    const history = useHistory()
     const { values, setValues, handleInputChange } = useForm(initialFieldValues);
 
     const productOptions = [];
@@ -58,7 +54,8 @@ const AddNewRepair = (props) => {
         values.price = parseInt(values.price);
         props.addRepair(values);
         window.location.reload()
-        //history.push("/repairs")
+
+        //TODO: ADD pop-up message after add iteam with succes or bad message
     }
 
     return (
