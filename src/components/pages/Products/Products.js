@@ -10,7 +10,7 @@ import ProductsManager from "./ProductsManager"
 const initialFieldValues = {
     brand: '',
     model: '',
-    color: '',
+    color: ''
 }
 
 const Products = props => {
@@ -22,15 +22,12 @@ const Products = props => {
     const [showProductsList, setShowProductsList] = useState(false)
     const { values, setValues, handleInputChange } = useForm(initialFieldValues);
     
-    const fetchProducts = () => {
-        setLoading(true);
-        props.fetchProductsGroups()
-        props.fetchAllProducts()
-        setLoading(false);
-    }
     useEffect(() => {
-        fetchProducts()
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+        setLoading(true)
+        props.fetchAllProducts()
+        props.fetchProductsGroups()
+        setLoading(false)
+    }, [props.productList]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleAddForm = () => {
         setShowForm(true);
@@ -42,7 +39,7 @@ const Products = props => {
     const handleFormClose = () => {
         setShowForm(false);
         setValues(initialFieldValues);
-        setEdit(true)
+        setEdit(false)
     }
 
     const handleEditForm = (brand, model, color, id) => {
@@ -57,7 +54,6 @@ const Products = props => {
         props.createProduct(values)
         setShowForm(false);
         setValues(initialFieldValues);
-        window.location.reload();
     }
 
     const handleEditSubmit = e => {
@@ -90,13 +86,13 @@ const Products = props => {
                 handleSubmit={handleSubmit}
                 handleAddForm={handleAddForm}
                 edit={edit} setEdit={setEdit} />
-            <ProductList productList={props.groupedList} loading={loading} />
+            <ProductList groupedList={props.groupedList} loading={loading} />
         </Container>
     );
 }
 
 const mapStateToProps = state => ({
-    productList: state.Product.productlist.sort((a, b) => a.brand < b.brand ? 1 : -1),
+    productList: state.Product.productList,
     groupedList: state.Product.groupedList
 })
 

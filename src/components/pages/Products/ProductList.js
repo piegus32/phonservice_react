@@ -40,7 +40,7 @@ const ProductList = props => {
     }
     return (
         <div>
-            {props.productList.map((option, key) => {
+            {props.groupedList.map((option, key) => {
                 return (
                     <div id={key + "image"} key={key.toString()} style={{ float: 'left', position: 'relative', width: "250px", height: "250px" }}>
                         <Image src={selectPhoto(option.brand)} className="imageStyle" fluid></Image>

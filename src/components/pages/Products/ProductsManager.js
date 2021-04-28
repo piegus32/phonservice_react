@@ -11,7 +11,7 @@ const ProductsManager = props => {
     //Get Current Posts
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentProductList = props.productList.slice(indexOfFirstPost, indexOfLastPost)
+    const currentProductList = props.productList.slice(indexOfFirstPost, indexOfLastPost).sort((a, b) => a.brand < b.brand ? 1 : -1)
 
     const paginate = number => {
         setCurrentPage(number)

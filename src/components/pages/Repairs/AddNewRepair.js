@@ -8,6 +8,7 @@ import * as clientActions from "../../../actions/client";
 import "./repairs.css"
 import useForm from "../useForm"
 import Select from 'react-select'
+import { LaptopWindows } from '@material-ui/icons';
 
 const initialFieldValues = {
     warranty: '',
@@ -56,8 +57,8 @@ const AddNewRepair = (props) => {
     const HandleAddButton = () => {
         values.price = parseInt(values.price);
         props.addRepair(values);
-        history.push("/repairs")
         window.location.reload()
+        //history.push("/repairs")
     }
 
     return (
@@ -111,7 +112,7 @@ const AddNewRepair = (props) => {
 }
 
 const mapStateToProps = state => ({
-    productList: state.Product.productlist,
+    productList: state.Product.productList,
     clientList: state.Client.clientlist
 })
 
