@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Button, Nav, Navbar, NavDropdown, Container } from "react-bootstrap";
 
 function logout() {
     localStorage.clear()
@@ -8,6 +8,7 @@ function logout() {
 }
 
 const Navibar = () => (
+  <Container fluid>
   <Navbar bg="light" expand="lg" style={{marginBottom: "20px"}}>
     <Navbar.Brand href="/">iCracked</Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -24,6 +25,7 @@ const Navibar = () => (
       <Button onClick={() => logout()}>Logout</Button>
     </Navbar.Collapse>
   </Navbar>
+  </Container>
 )
 
 export default Navibar;
