@@ -28,6 +28,12 @@ axios.interceptors.response.use(
     },
     async function (error) {
         const originalRequest = error.config;
+
+        if(!error.response){
+            console.log("Check Server status.")
+            localStorage.clear()
+        }
+
         if (
             error.response.status === 401 &&
             !originalRequest._retry
