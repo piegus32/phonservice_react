@@ -20,6 +20,7 @@ const Products = props => {
     const [edit, setEdit] = useState(false);
     const [currentId, setCurrentId] = useState(0);
     const [showProductsList, setShowProductsList] = useState(false)
+    const [showBrands, setShowBrands] = useState(true)
     const { values, setValues, handleInputChange } = useForm(initialFieldValues);
     
     useEffect(() => {
@@ -27,7 +28,7 @@ const Products = props => {
         props.fetchAllProducts()
         props.fetchProductsGroups()
         setLoading(false)
-    }, [props.productList]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [showBrands]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleAddForm = () => {
         setShowForm(true);
@@ -36,6 +37,7 @@ const Products = props => {
     const onDelete = id => {
         props.deleteProduct(id)
     }
+
     const handleFormClose = () => {
         setShowForm(false);
         setValues(initialFieldValues);
@@ -50,7 +52,6 @@ const Products = props => {
     }
     const handleSubmit = e => {
         e.preventDefault()
-        console.log(values)
         props.createProduct(values)
         setShowForm(false);
         setValues(initialFieldValues);
@@ -58,7 +59,6 @@ const Products = props => {
 
     const handleEditSubmit = e => {
         e.preventDefault()
-        console.log(values)
         props.updateProduct(currentId, values)
         setShowForm(false);
         setEdit(false);
@@ -70,13 +70,15 @@ const Products = props => {
             <ButtonGroup aria-label="Basic example">
                 <Button variant="secondary" onClick={handleAddForm}>Add Product</Button>
                 <Button variant="secondary" onClick={() => setShowProductsList(!showProductsList)}>Manage Products</Button>
+                <Button variant="secondary" onClick={() => setShowBrands(!showBrands)}>All Brands</Button>
             </ButtonGroup>
             <ProductsManager
                 loading={loading}
                 productList={props.productList}
                 onDelete={onDelete}
                 handleEditForm={handleEditForm}
-                showProductsList={showProductsList} />
+                showProductsList={showProductsList}
+                groupedList={props.groupedList} />
             <ProductModal
                 showForm={showForm}
                 handleFormClose={handleFormClose}
@@ -86,7 +88,11 @@ const Products = props => {
                 handleSubmit={handleSubmit}
                 handleAddForm={handleAddForm}
                 edit={edit} setEdit={setEdit} />
-            <ProductList groupedList={props.groupedList} loading={loading} />
+            <ProductList 
+                groupedList={props.groupedList}
+                productList={props.productList}
+                loading={loading}
+                showBrands={showBrands} />
         </Container>
     );
 }

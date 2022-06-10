@@ -37,7 +37,6 @@ const Clients = props => {
         }
 
         setValues(initialFieldValues)
-        window.location.reload()
     }
 
     const HandleDeleteButton = id => {

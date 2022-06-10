@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Button, Spinner } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import Paginate from "./Paginate"
 
 const ProductsManager = props => {
@@ -16,14 +16,6 @@ const ProductsManager = props => {
     const paginate = number => {
         setCurrentPage(number)
         setActive(number)
-    }
-
-    if (props.loading) {
-        return (
-            <Spinner animation="border" role="status">
-                <span className="sr-only">Loading...</span>
-            </Spinner>
-        )
     }
 
     return (

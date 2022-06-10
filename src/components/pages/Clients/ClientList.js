@@ -44,7 +44,7 @@ const ClientList = props => {
                         <th>Surname</th>
                         <th>Phone</th>
                         <th>Email</th>
-                        <th></th>
+                        <th>Options</th>
                     </tr>
                 </thead>
                 <tbody>

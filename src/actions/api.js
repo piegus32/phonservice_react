@@ -21,17 +21,6 @@ axios.interceptors.request.use(
 let isRefreshing = false;
 let failedQueue = [];
 
-const processQueue = (error, token = null) => {
-    failedQueue.forEach(prom => {
-        if (error) {
-            prom.reject(error);
-        } else {
-            prom.resolve(token);
-        }
-    });
-
-    failedQueue = [];
-};
 //response interceptor to refresh token on receiving token expired error
 axios.interceptors.response.use(
     (response) => {
@@ -56,24 +45,19 @@ axios.interceptors.response.use(
             
             originalRequest._retry = true;
             isRefreshing = true;
-            return new Promise(function (resolve, reject) {
-                axios.defaults.withCredentials = true;
-                axios.post(`${baseUrl}auth/refresh-token`)
-                .then(response => {
-                    localStorage.setItem("user", JSON.stringify(response.data));
-                    console.log("Access token refreshed!");
-                    processQueue(null, response.data.token);
-                    resolve(axios(originalRequest));
+
+            let promise = new Promise((_resolve) => {
+                    axios.defaults.withCredentials = true;
+                    axios.post(`${baseUrl}auth/refresh-token`)
+                        .then(response => {
+                            localStorage.setItem("user", JSON.stringify(response.data));
+                            window.location.reload();
+                        });
                 })
-                .catch((err) => {
-                    processQueue(err, null);
-                    reject(err);
-                })
-                .finally(
-                    window.location.reload()
-                )
-            })
+
+            return promise;
         }
+        
         return Promise.reject(error);
     }
 );

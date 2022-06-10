@@ -31,16 +31,20 @@ const ProductList = props => {
                 return noLogo
         }
     }
+
     if (props.loading) {
         return (
-            <Spinner animation="border" role="status">
-                <span className="sr-only">Loading...</span>
+            <div position>
+            <Spinner animation="border" role="status" position="Center">
+                <div>Loading...</div>
             </Spinner>
+            </div>
         )
     }
+    
     return (
         <div>
-            {props.groupedList.map((option, key) => {
+            {props.showBrands && props.groupedList.map((option, key) => {
                 return (
                     <div id={key + "image"} key={key.toString()} style={{ float: 'left', position: 'relative', width: "250px", height: "250px" }}>
                         <Image src={selectPhoto(option.brand)} className="imageStyle" fluid></Image>
